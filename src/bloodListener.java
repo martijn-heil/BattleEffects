@@ -18,7 +18,7 @@ public class bloodListener implements Listener
     FileConfiguration config = me.Ninjoh.BattleEffects.Main.plugin.getConfig();
 
 
-    @EventHandler(priority= EventPriority.LOWEST)
+    @EventHandler
     public void onPlayerDeathEvent(PlayerDeathEvent e)
     {
         if (config.getBoolean("enableLeavingBehindPlayerHeadOnDeath"))
@@ -41,10 +41,10 @@ public class bloodListener implements Listener
         }
     }
 
-    @EventHandler(priority= EventPriority.LOWEST)
+    @EventHandler(priority= EventPriority.MONITOR)
     public void onEntityDamageByEntityEvent (EntityDamageByEntityEvent e)
     {
-        if (e.getEntity() instanceof Player)
+        if (e.getEntity() instanceof Player && !e.isCancelled())
         {
             // Cast Event Entitiy to Player object.
             Player p = (Player)e.getEntity();
