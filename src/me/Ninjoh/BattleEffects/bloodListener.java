@@ -3,6 +3,7 @@ package me.Ninjoh.BattleEffects;
 import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.block.BlockFace;
 import org.bukkit.block.Skull;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -11,6 +12,10 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 
 public class bloodListener implements Listener
@@ -32,11 +37,34 @@ public class bloodListener implements Listener
 
             Location deathLocation = p.getLocation();
 
+            // List of facing directions.
+            List<BlockFace> list = new ArrayList<BlockFace>();
+            list.add(BlockFace.NORTH);
+            list.add(BlockFace.NORTH_NORTH_EAST);
+            list.add(BlockFace.NORTH_EAST);
+            list.add(BlockFace.EAST_NORTH_EAST);
+            list.add(BlockFace.EAST);
+            list.add(BlockFace.EAST_SOUTH_EAST);
+            list.add(BlockFace.SOUTH_EAST);
+            list.add(BlockFace.SOUTH_SOUTH_EAST);
+            list.add(BlockFace.SOUTH);
+            list.add(BlockFace.SOUTH_SOUTH_WEST);
+            list.add(BlockFace.SOUTH_WEST);
+            list.add(BlockFace.WEST_SOUTH_WEST);
+            list.add(BlockFace.WEST);
+            list.add(BlockFace.WEST_NORTH_WEST);
+            list.add(BlockFace.NORTH_WEST);
+            list.add(BlockFace.NORTH_NORTH_WEST);
+
+            // Get random facing direction.
+            BlockFace blockFace = list.get(new Random().nextInt(list.size()));
+
             // Place the player's skull on player's death location...
             deathLocation.getBlock().setType(Material.SKULL);
             deathLocation.getBlock().setData((byte) 1);
             Skull s = (Skull) deathLocation.getBlock().getState();
             s.setOwner(skullOwner);
+            s.setRotation(blockFace);
             s.update();
         }
     }
