@@ -1,0 +1,15 @@
+# Author: Ninjoh
+
+
+# Should blood particles be shown on hit?
+enableBloodParticleEffect: true
+
+# Should a skull be left behind as a block on the location where a player dies?
+enableLeavingBehindPlayerHeadOnDeath: true
+
+# Should blood be left behind on hit (Random chance, the "blood" is redstone wire)?
+# WARNING: Players can use this to get infinite redstone supply
+enableLeavingBehindBlood: true
+
+# The chance (In percentages) to leave "blood" (redstone wire) behind on the ground, on hit
+chanceToLeaveBehindBloodOnHit: 50
