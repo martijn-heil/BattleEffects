@@ -27,7 +27,6 @@ public class Main extends JavaPlugin
 //        }
 
         // Save config.
-        getConfig().options().copyDefaults(true);
         saveDefaultConfig();
         saveConfig();
 
