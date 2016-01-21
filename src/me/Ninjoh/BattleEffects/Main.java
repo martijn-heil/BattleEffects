@@ -7,6 +7,8 @@ public class Main extends JavaPlugin
 {
     public static Main plugin;
 
+   // public static boolean useWorldguard = false;
+
 
     @Override
     public void onEnable()
@@ -16,6 +18,13 @@ public class Main extends JavaPlugin
         // Used to use JavaPlugin methods in listener classes.
         plugin = this;
 
+        //Plugin worldguard = getWorldGuard();
+
+//        if(worldguard == null)
+//        {
+//            plugin.getLogger().info("Successfully hooked into worldguard");
+//            useWorldguard = true;
+//        }
 
         // Save config.
         getConfig().options().copyDefaults(true);
@@ -37,4 +46,15 @@ public class Main extends JavaPlugin
         // Make sure this is executed as last thing on disable!
         plugin = null;
     }
+
+
+//    public WorldGuardPlugin getWorldGuard()
+//    {
+//        Plugin plugin = getServer().getPluginManager().getPlugin("WorldGuard");
+//        if ((plugin == null) || (!(plugin instanceof WorldGuardPlugin)))
+//        {
+//            return null;
+//        }
+//        return (WorldGuardPlugin)plugin;
+//    }
 }

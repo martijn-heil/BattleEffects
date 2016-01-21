@@ -35,7 +35,7 @@ public class MainListener implements Listener
 
             String skullOwner = p.getName();
 
-            Location deathLocation = p.getLocation();
+            Location loc = p.getLocation();
 
             // List of facing directions.
             List<BlockFace> list = new ArrayList<BlockFace>();
@@ -59,27 +59,56 @@ public class MainListener implements Listener
             // Get random facing direction.
             BlockFace blockFace = list.get(new Random().nextInt(list.size()));
 
-            // Place the player's skull on player's death location...
-            deathLocation.getBlock().setType(Material.SKULL);
-            deathLocation.getBlock().setData((byte) 1);
-            Skull s = (Skull) deathLocation.getBlock().getState();
-            s.setOwner(skullOwner);
-            s.setRotation(blockFace);
-            s.update();
+
+            // List of forbidden block materials.
+            List<Material> blockList = new ArrayList<Material>();
+            blockList.add(Material.AIR);
+            blockList.add(Material.WATER);
+            blockList.add(Material.STATIONARY_WATER);
+            blockList.add(Material.LAVA);
+            blockList.add(Material.STATIONARY_LAVA);
+            blockList.add(Material.LONG_GRASS);
+            blockList.add(Material.YELLOW_FLOWER);
+            blockList.add(Material.RED_ROSE);
+
+
+            while (loc.getY() > 0)
+            {
+                p.sendMessage("Loop; Block: " + loc.getBlock().getType().toString() + " Good block: " + !blockList.contains(loc.getBlock().getType()));
+
+
+                if (!blockList.contains(loc.getBlock().getType()))
+                {
+                    Location finalLoc = loc.add(0, 1, 0);
+
+                    // Place the player's skull on the location.
+                    finalLoc.getBlock().setType(Material.SKULL);
+                    finalLoc.getBlock().setData((byte) 1);
+                    Skull s = (Skull) finalLoc.getBlock().getState();
+                    s.setOwner(skullOwner);
+                    s.setRotation(blockFace);
+                    s.update();
+
+                    break;
+                }
+
+                loc.subtract(0, 1, 0);
+            }
         }
     }
 
-    @EventHandler(priority= EventPriority.MONITOR)
-    public void onEntityDamageByEntityEvent (EntityDamageByEntityEvent e)
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onEntityDamageByEntityEvent(EntityDamageByEntityEvent e)
     {
         if (e.getEntity() instanceof Player && !e.isCancelled())
         {
             // Cast Event Entitiy to Player object.
-            Player p = (Player)e.getEntity();
+            Player p = (Player) e.getEntity();
 
 
             // Show blood particle effect if enabled in config.
-            if(config.getBoolean("enableBloodParticleEffect"))
+            if (config.getBoolean("enableBloodParticleEffect"))
             {
                 // Show redstone block blood effect.
                 p.getWorld().playEffect(p.getLocation(), Effect.STEP_SOUND, Material.REDSTONE_BLOCK);
@@ -87,10 +116,11 @@ public class MainListener implements Listener
 
 
             // Leave behind blood if enabled in config.
-            if(config.getBoolean("enableLeavingBehindBlood"))
+            if (config.getBoolean("enableLeavingBehindBlood"))
             {
                 // Chance to leave blood behind, percentage in int.
-                if (Chance(config.getInt("chanceToLeaveBehindBloodOnHit"))) {
+                if (Chance(config.getInt("chanceToLeaveBehindBloodOnHit")))
+                {
                     // Prepare blockdata
                     Byte blockData = 0x0;
 
@@ -101,11 +131,12 @@ public class MainListener implements Listener
         }
     }
 
+
     // Random chance generator.
-    public boolean Chance(int Chance)
+    private boolean Chance(int Chance)
     {
         int number = (int) (Math.random() * 100);
-        if(number < Chance)
+        if (number < Chance)
         {
             return true;
         }
