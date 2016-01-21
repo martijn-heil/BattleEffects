@@ -35,8 +35,6 @@ public class MainListener implements Listener
 
             String skullOwner = p.getName();
 
-            Location loc = p.getLocation();
-
             // List of facing directions.
             List<BlockFace> list = new ArrayList<BlockFace>();
             list.add(BlockFace.NORTH);
@@ -60,7 +58,7 @@ public class MainListener implements Listener
             BlockFace blockFace = list.get(new Random().nextInt(list.size()));
 
 
-            // List of forbidden block materials.
+            // List of blocks a skull shouldn't be placed on top of.
             List<Material> blockList = new ArrayList<Material>();
             blockList.add(Material.AIR);
             blockList.add(Material.WATER);
@@ -70,13 +68,25 @@ public class MainListener implements Listener
             blockList.add(Material.LONG_GRASS);
             blockList.add(Material.YELLOW_FLOWER);
             blockList.add(Material.RED_ROSE);
+            blockList.add(Material.SUGAR_CANE_BLOCK);
+            blockList.add(Material.DEAD_BUSH);
+            blockList.add(Material.DOUBLE_PLANT);
+            blockList.add(Material.FIRE);
+            blockList.add(Material.SNOW);
+            blockList.add(Material.RED_MUSHROOM);
+            blockList.add(Material.TORCH);
+            blockList.add(Material.TRIPWIRE);
+            blockList.add(Material.RAILS);
+            blockList.add(Material.ACTIVATOR_RAIL);
+            blockList.add(Material.DETECTOR_RAIL);
+            blockList.add(Material.POWERED_RAIL);
 
 
-            while (loc.getY() > 0)
+            // Loop through all blocks below the player's death location.
+            for (Location loc = p.getLocation(); loc.getY() > 0; loc.subtract(0, 1, 0))
             {
-                p.sendMessage("Loop; Block: " + loc.getBlock().getType().toString() + " Good block: " + !blockList.contains(loc.getBlock().getType()));
-
-
+                // If the block isn't a block a skull shouldn't be placed on top of,
+                // get the block above that block and place the skull there.
                 if (!blockList.contains(loc.getBlock().getType()))
                 {
                     Location finalLoc = loc.add(0, 1, 0);
@@ -91,8 +101,6 @@ public class MainListener implements Listener
 
                     break;
                 }
-
-                loc.subtract(0, 1, 0);
             }
         }
     }
