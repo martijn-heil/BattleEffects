@@ -2,7 +2,3 @@ name: BattleEffects
 version: 1.2.0
 author: Ninjoh
 main: me.Ninjoh.BattleEffects.Main
-commands:
-   battleeffects:
-      aliases: [be]
-      description: The main command for this plugin.
