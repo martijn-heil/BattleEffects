@@ -36,7 +36,7 @@ public class MainListener implements Listener
             String skullOwner = p.getName();
 
             // List of facing directions.
-            List<BlockFace> list = new ArrayList<BlockFace>();
+            List<BlockFace> list = new ArrayList<>();
             list.add(BlockFace.NORTH);
             list.add(BlockFace.NORTH_NORTH_EAST);
             list.add(BlockFace.NORTH_EAST);
@@ -59,7 +59,7 @@ public class MainListener implements Listener
 
 
             // List of blocks a skull shouldn't be placed on top of.
-            List<Material> blockList = new ArrayList<Material>();
+            List<Material> blockList = new ArrayList<>();
             blockList.add(Material.AIR);
             blockList.add(Material.WATER);
             blockList.add(Material.STATIONARY_WATER);
