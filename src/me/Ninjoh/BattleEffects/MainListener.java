@@ -91,6 +91,12 @@ public class MainListener implements Listener
                 {
                     Location finalLoc = loc.add(0, 1, 0);
 
+                    // Break the block naturally, if it's a rails or something for example.
+                    if(finalLoc.getBlock().getType() != Material.AIR)
+                    {
+                        finalLoc.getBlock().breakNaturally();
+                    }
+
                     // Place the player's skull on the location.
                     finalLoc.getBlock().setType(Material.SKULL);
                     finalLoc.getBlock().setData((byte) 1);
