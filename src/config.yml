@@ -11,5 +11,9 @@ enableLeavingBehindPlayerHeadOnDeath: true
 # WARNING: Players can use this to get infinite redstone supply
 enableLeavingBehindBlood: true
 
+# Prevent skulls being placed in mid air? But instead place them
+# on the nearest possible block below the player?
+preventSkullsBeingPlacedMidAir: true
+
 # The chance (In percentages) to leave "blood" (redstone wire) behind on the ground, on hit
 chanceToLeaveBehindBloodOnHit: 50

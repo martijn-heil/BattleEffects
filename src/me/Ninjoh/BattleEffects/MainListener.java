@@ -57,56 +57,67 @@ public class MainListener implements Listener
             // Get random facing direction.
             BlockFace blockFace = list.get(new Random().nextInt(list.size()));
 
-
-            // List of blocks a skull shouldn't be placed on top of.
-            List<Material> blockList = new ArrayList<>();
-            blockList.add(Material.AIR);
-            blockList.add(Material.WATER);
-            blockList.add(Material.STATIONARY_WATER);
-            blockList.add(Material.LAVA);
-            blockList.add(Material.STATIONARY_LAVA);
-            blockList.add(Material.LONG_GRASS);
-            blockList.add(Material.YELLOW_FLOWER);
-            blockList.add(Material.RED_ROSE);
-            blockList.add(Material.SUGAR_CANE_BLOCK);
-            blockList.add(Material.DEAD_BUSH);
-            blockList.add(Material.DOUBLE_PLANT);
-            blockList.add(Material.FIRE);
-            blockList.add(Material.SNOW);
-            blockList.add(Material.RED_MUSHROOM);
-            blockList.add(Material.TORCH);
-            blockList.add(Material.TRIPWIRE);
-            blockList.add(Material.RAILS);
-            blockList.add(Material.ACTIVATOR_RAIL);
-            blockList.add(Material.DETECTOR_RAIL);
-            blockList.add(Material.POWERED_RAIL);
-
-
-            // Loop through all blocks below the player's death location.
-            for (Location loc = p.getLocation(); loc.getY() > 0; loc.subtract(0, 1, 0))
+            if(config.getBoolean("preventSkullsBeingPlacedMidAir"))
             {
-                // If the block isn't a block a skull shouldn't be placed on top of,
-                // get the block above that block and place the skull there.
-                if (!blockList.contains(loc.getBlock().getType()))
+                // List of blocks a skull shouldn't be placed on top of.
+                List<Material> blockList = new ArrayList<>();
+                blockList.add(Material.AIR);
+                blockList.add(Material.WATER);
+                blockList.add(Material.STATIONARY_WATER);
+                blockList.add(Material.LAVA);
+                blockList.add(Material.STATIONARY_LAVA);
+                blockList.add(Material.LONG_GRASS);
+                blockList.add(Material.YELLOW_FLOWER);
+                blockList.add(Material.RED_ROSE);
+                blockList.add(Material.SUGAR_CANE_BLOCK);
+                blockList.add(Material.DEAD_BUSH);
+                blockList.add(Material.DOUBLE_PLANT);
+                blockList.add(Material.FIRE);
+                blockList.add(Material.SNOW);
+                blockList.add(Material.RED_MUSHROOM);
+                blockList.add(Material.TORCH);
+                blockList.add(Material.TRIPWIRE);
+                blockList.add(Material.RAILS);
+                blockList.add(Material.ACTIVATOR_RAIL);
+                blockList.add(Material.DETECTOR_RAIL);
+                blockList.add(Material.POWERED_RAIL);
+
+
+                // Loop through all blocks below the player's death location.
+                for (Location loc = p.getLocation(); loc.getY() > 0; loc.subtract(0, 1, 0))
                 {
-                    Location finalLoc = loc.add(0, 1, 0);
-
-                    // Break the block naturally, if it's a rails or something for example.
-                    if(finalLoc.getBlock().getType() != Material.AIR)
+                    // If the block isn't a block a skull shouldn't be placed on top of,
+                    // get the block above that block and place the skull there.
+                    if (!blockList.contains(loc.getBlock().getType()))
                     {
-                        finalLoc.getBlock().breakNaturally();
+                        Location finalLoc = loc.add(0, 1, 0);
+
+                        // Break the block naturally, if it's a rails or something for example.
+                        if (finalLoc.getBlock().getType() != Material.AIR)
+                        {
+                            finalLoc.getBlock().breakNaturally();
+                        }
+
+                        // Place the player's skull on the location.
+                        finalLoc.getBlock().setType(Material.SKULL);
+                        finalLoc.getBlock().setData((byte) 1);
+                        Skull s = (Skull) finalLoc.getBlock().getState();
+                        s.setOwner(skullOwner);
+                        s.setRotation(blockFace);
+                        s.update();
+
+                        break;
                     }
-
-                    // Place the player's skull on the location.
-                    finalLoc.getBlock().setType(Material.SKULL);
-                    finalLoc.getBlock().setData((byte) 1);
-                    Skull s = (Skull) finalLoc.getBlock().getState();
-                    s.setOwner(skullOwner);
-                    s.setRotation(blockFace);
-                    s.update();
-
-                    break;
                 }
+            }
+            else
+            {
+                p.getLocation().getBlock().setType(Material.SKULL);
+                p.getLocation().getBlock().setData((byte) 1);
+                Skull s = (Skull) p.getLocation().getBlock().getState();
+                s.setOwner(skullOwner);
+                s.setRotation(blockFace);
+                s.update();
             }
         }
     }
