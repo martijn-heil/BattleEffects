@@ -1,5 +1,6 @@
 package me.Ninjoh.BattleEffects;
 
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
 
@@ -16,6 +17,8 @@ public class Main extends JavaPlugin
         // Used to use JavaPlugin methods in listener classes.
         plugin = this;
 
+        FileConfiguration config = this.getConfig();
+
 
         // Save config.
         saveDefaultConfig();
@@ -24,6 +27,16 @@ public class Main extends JavaPlugin
 
         // Register events
         getServer().getPluginManager().registerEvents(new MainListener(), this);
+
+        if(!config.getString("skulls.howToLeaveBehindSkulls").equals("block") &&
+                !config.getString("skulls.howToLeaveBehindSkulls").equals("item") &&
+                !config.getString("skulls.howToLeaveBehindSkulls").equals("putInKillersInventory"));
+        {
+            this.getLogger().severe("Invalid value (" + config.getString("skulls.howToLeaveBehindSkulls"
+                    + ") in config for key: howToLeaveBehindSkulls"));
+            this.getLogger().severe("Terminating plugin..");
+            this.setEnabled(false);
+        }
 
     }
 

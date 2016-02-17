@@ -28,11 +28,8 @@ public class MainListener implements Listener
     @EventHandler
     public void onPlayerDeathEvent(PlayerDeathEvent e)
     {
-
-
         if (config.getBoolean("skulls.enableLeavingBehindPlayerSkulls"))
         {
-
             // Get player
             Player p = (Player) e.getEntity();
             String skullOwner = p.getName();
