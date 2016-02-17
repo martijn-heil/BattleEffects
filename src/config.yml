@@ -1,19 +1,36 @@
 # Author: Ninjoh
 
+blood:
+  # Should blood particles be shown on hit?
+  enableBloodParticleEffect: true
 
-# Should blood particles be shown on hit?
-enableBloodParticleEffect: true
+  # Should blood be left behind on hit (Random chance, the "blood" is redstone wire)?
+  # WARNING: Players can use this to get infinite redstone supply
+  enableLeavingBehindBlood: true
 
-# Should a skull be left behind as a block on the location where a player dies?
-enableLeavingBehindPlayerHeadOnDeath: true
+  # The chance (In percentages) to leave "blood" (redstone wire) behind on the ground, on hit
+  chanceToLeaveBehindBloodOnHit: 50
 
-# Should blood be left behind on hit (Random chance, the "blood" is redstone wire)?
-# WARNING: Players can use this to get infinite redstone supply
-enableLeavingBehindBlood: true
+skulls:
+  # Should a skull be left behind as a block on the location where a player dies?
+  enableLeavingBehindSkulls: true
 
-# Prevent skulls being placed in mid air? But instead place them
-# on the nearest possible block below the player?
-preventSkullsBeingPlacedMidAir: true
+  # How should skulls be left behind?
+  # As a block or as a dropped item.
+  # valid values: 'block' OR 'item' OR 'putInKillersInventory'
+  howToLeaveBehindSkulls: 'block'
 
-# The chance (In percentages) to leave "blood" (redstone wire) behind on the ground, on hit
-chanceToLeaveBehindBloodOnHit: 50
+  # If the 'howToLeaveBehindSkulls' option is set to 'putInKillersInventory'
+  # and the killers inventory is full, should the skull be dropped as an item on the ground?
+  dropSkullAsItemIfKillersInventoryIsFull: true
+
+
+  # Prevent skulls being placed in mid air? But instead place them
+  # on the nearest possible block below the player?
+  preventSkullsBeingPlacedMidAir: true
+
+  # Chance to leave behind a player skull,
+  # (in percentages without the percentage mark).
+  # set to 100 to always leave behind player skulls.
+  # NOTE: This is currently not affected by the 'looting' enchantment.
+  chanceToLeaveBehindSkull: 100

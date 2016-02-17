@@ -12,6 +12,8 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.SkullMeta;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,98 +28,135 @@ public class MainListener implements Listener
     @EventHandler
     public void onPlayerDeathEvent(PlayerDeathEvent e)
     {
-        if (config.getBoolean("enableLeavingBehindPlayerHeadOnDeath"))
+
+
+        if (config.getBoolean("skulls.enableLeavingBehindPlayerSkulls"))
         {
 
             // Get player
-            Player p = e.getEntity();
-
-
+            Player p = (Player) e.getEntity();
             String skullOwner = p.getName();
 
-            // List of facing directions.
-            List<BlockFace> list = new ArrayList<>();
-            list.add(BlockFace.NORTH);
-            list.add(BlockFace.NORTH_NORTH_EAST);
-            list.add(BlockFace.NORTH_EAST);
-            list.add(BlockFace.EAST_NORTH_EAST);
-            list.add(BlockFace.EAST);
-            list.add(BlockFace.EAST_SOUTH_EAST);
-            list.add(BlockFace.SOUTH_EAST);
-            list.add(BlockFace.SOUTH_SOUTH_EAST);
-            list.add(BlockFace.SOUTH);
-            list.add(BlockFace.SOUTH_SOUTH_WEST);
-            list.add(BlockFace.SOUTH_WEST);
-            list.add(BlockFace.WEST_SOUTH_WEST);
-            list.add(BlockFace.WEST);
-            list.add(BlockFace.WEST_NORTH_WEST);
-            list.add(BlockFace.NORTH_WEST);
-            list.add(BlockFace.NORTH_NORTH_WEST);
-
-            // Get random facing direction.
-            BlockFace blockFace = list.get(new Random().nextInt(list.size()));
-
-            if(config.getBoolean("preventSkullsBeingPlacedMidAir"))
+            if (config.getString("skulls.howToLeaveBehindSkulls").equals("block"))
             {
-                // List of blocks a skull shouldn't be placed on top of.
-                List<Material> blockList = new ArrayList<>();
-                blockList.add(Material.AIR);
-                blockList.add(Material.WATER);
-                blockList.add(Material.STATIONARY_WATER);
-                blockList.add(Material.LAVA);
-                blockList.add(Material.STATIONARY_LAVA);
-                blockList.add(Material.LONG_GRASS);
-                blockList.add(Material.YELLOW_FLOWER);
-                blockList.add(Material.RED_ROSE);
-                blockList.add(Material.SUGAR_CANE_BLOCK);
-                blockList.add(Material.DEAD_BUSH);
-                blockList.add(Material.DOUBLE_PLANT);
-                blockList.add(Material.FIRE);
-                blockList.add(Material.SNOW);
-                blockList.add(Material.RED_MUSHROOM);
-                blockList.add(Material.TORCH);
-                blockList.add(Material.TRIPWIRE);
-                blockList.add(Material.RAILS);
-                blockList.add(Material.ACTIVATOR_RAIL);
-                blockList.add(Material.DETECTOR_RAIL);
-                blockList.add(Material.POWERED_RAIL);
+                // List of facing directions.
+                List<BlockFace> list = new ArrayList<>();
+                list.add(BlockFace.NORTH);
+                list.add(BlockFace.NORTH_NORTH_EAST);
+                list.add(BlockFace.NORTH_EAST);
+                list.add(BlockFace.EAST_NORTH_EAST);
+                list.add(BlockFace.EAST);
+                list.add(BlockFace.EAST_SOUTH_EAST);
+                list.add(BlockFace.SOUTH_EAST);
+                list.add(BlockFace.SOUTH_SOUTH_EAST);
+                list.add(BlockFace.SOUTH);
+                list.add(BlockFace.SOUTH_SOUTH_WEST);
+                list.add(BlockFace.SOUTH_WEST);
+                list.add(BlockFace.WEST_SOUTH_WEST);
+                list.add(BlockFace.WEST);
+                list.add(BlockFace.WEST_NORTH_WEST);
+                list.add(BlockFace.NORTH_WEST);
+                list.add(BlockFace.NORTH_NORTH_WEST);
 
+                // Get random facing direction.
+                BlockFace blockFace = list.get(new Random().nextInt(list.size()));
 
-                // Loop through all blocks below the player's death location.
-                for (Location loc = p.getLocation(); loc.getY() > 0; loc.subtract(0, 1, 0))
+                if (config.getBoolean("skulls.preventSkullsBeingPlacedMidAir"))
                 {
-                    // If the block isn't a block a skull shouldn't be placed on top of,
-                    // get the block above that block and place the skull there.
-                    if (!blockList.contains(loc.getBlock().getType()))
+                    // List of blocks a skull shouldn't be placed on top of.
+                    List<Material> blockList = new ArrayList<>();
+                    blockList.add(Material.AIR);
+                    blockList.add(Material.WATER);
+                    blockList.add(Material.STATIONARY_WATER);
+                    blockList.add(Material.LAVA);
+                    blockList.add(Material.STATIONARY_LAVA);
+                    blockList.add(Material.LONG_GRASS);
+                    blockList.add(Material.YELLOW_FLOWER);
+                    blockList.add(Material.RED_ROSE);
+                    blockList.add(Material.SUGAR_CANE_BLOCK);
+                    blockList.add(Material.DEAD_BUSH);
+                    blockList.add(Material.DOUBLE_PLANT);
+                    blockList.add(Material.FIRE);
+                    blockList.add(Material.SNOW);
+                    blockList.add(Material.RED_MUSHROOM);
+                    blockList.add(Material.TORCH);
+                    blockList.add(Material.TRIPWIRE);
+                    blockList.add(Material.RAILS);
+                    blockList.add(Material.ACTIVATOR_RAIL);
+                    blockList.add(Material.DETECTOR_RAIL);
+                    blockList.add(Material.POWERED_RAIL);
+
+
+                    // Loop through all blocks below the player's death location.
+                    for (Location loc = p.getLocation(); loc.getY() > 0; loc.subtract(0, 1, 0))
                     {
-                        Location finalLoc = loc.add(0, 1, 0);
-
-                        // Break the block naturally, if it's a rails or something for example.
-                        if (finalLoc.getBlock().getType() != Material.AIR)
+                        // If the block isn't a block a skull shouldn't be placed on top of,
+                        // get the block above that block and place the skull there.
+                        if (!blockList.contains(loc.getBlock().getType()))
                         {
-                            finalLoc.getBlock().breakNaturally();
+                            Location finalLoc = loc.add(0, 1, 0);
+
+                            // Break the block naturally, if it's a rails or something for example.
+                            if (finalLoc.getBlock().getType() != Material.AIR)
+                            {
+                                finalLoc.getBlock().breakNaturally();
+                            }
+
+                            // Place the player's skull on the location.
+                            finalLoc.getBlock().setType(Material.SKULL);
+                            finalLoc.getBlock().setData((byte) 1);
+                            Skull s = (Skull) finalLoc.getBlock().getState();
+                            s.setOwner(skullOwner);
+                            s.setRotation(blockFace);
+                            s.update();
+
+                            break;
                         }
-
-                        // Place the player's skull on the location.
-                        finalLoc.getBlock().setType(Material.SKULL);
-                        finalLoc.getBlock().setData((byte) 1);
-                        Skull s = (Skull) finalLoc.getBlock().getState();
-                        s.setOwner(skullOwner);
-                        s.setRotation(blockFace);
-                        s.update();
-
-                        break;
                     }
                 }
+                else
+                {
+                    p.getLocation().getBlock().setType(Material.SKULL);
+                    p.getLocation().getBlock().setData((byte) 1);
+                    Skull s = (Skull) p.getLocation().getBlock().getState();
+                    s.setOwner(skullOwner);
+                    s.setRotation(blockFace);
+                    s.update();
+                }
             }
-            else
+            else if (config.getString("skulls.howToLeaveBehindSkulls").equals("dropItem"))
             {
-                p.getLocation().getBlock().setType(Material.SKULL);
-                p.getLocation().getBlock().setData((byte) 1);
-                Skull s = (Skull) p.getLocation().getBlock().getState();
-                s.setOwner(skullOwner);
-                s.setRotation(blockFace);
-                s.update();
+                ItemStack is = new ItemStack(Material.SKULL_ITEM, 1, (short) 3);
+                SkullMeta sm = (SkullMeta) is.getItemMeta();
+                sm.setOwner(skullOwner);
+                is.setItemMeta(sm);
+
+                // Drop the skull as an item.
+                e.getDrops().add(is);
+            }
+            // If the killer is a player.
+            else if (config.getString("skulls.howToLeaveBehindSkulls").equals("putInKillersInventory") &&
+                    (e.getEntity().getKiller() != null) && (e.getEntity().getKiller() instanceof Player))
+            {
+                ItemStack is = new ItemStack(Material.SKULL_ITEM, 1, (short) 3);
+                SkullMeta sm = (SkullMeta) is.getItemMeta();
+                sm.setOwner(skullOwner);
+                is.setItemMeta(sm);
+
+                // Put the player skull in the killer's inventory if his inventory is not full.
+                if(e.getEntity().getKiller().getInventory().firstEmpty() != -1)
+                {
+                    e.getEntity().getKiller().getInventory().addItem(is);
+                }
+                else // If the killer's inventory is full.
+                {
+                    // Drop the skull as an item if the killer's inventory is full.
+                    if (config.getBoolean("skulls.dropSkullAsItemIfKillersInventoryIsFull"))
+                    {
+                        // Drop the skull as an item.
+                        e.getDrops().add(is);
+                    }
+                }
             }
         }
     }
