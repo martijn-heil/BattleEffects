@@ -30,7 +30,7 @@ public class Main extends JavaPlugin
 
         if(!config.getString("skulls.howToLeaveBehindSkulls").equals("block") &&
                 !config.getString("skulls.howToLeaveBehindSkulls").equals("item") &&
-                !config.getString("skulls.howToLeaveBehindSkulls").equals("putInKillersInventory"));
+                !config.getString("skulls.howToLeaveBehindSkulls").equals("putInKillersInventory"))
         {
             this.getLogger().severe("Invalid value (" + config.getString("skulls.howToLeaveBehindSkulls"
                     + ") in config for key: howToLeaveBehindSkulls"));
