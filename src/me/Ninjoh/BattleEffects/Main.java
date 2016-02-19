@@ -31,8 +31,8 @@ public class Main extends JavaPlugin
                 !config.getString("skulls.howToLeaveBehindSkulls").equals("dropItem") &&
                 !config.getString("skulls.howToLeaveBehindSkulls").equals("putInKillersInventory"))
         {
-            this.getLogger().severe("Invalid value (" + config.getString("skulls.howToLeaveBehindSkulls"
-                    + ") in config for key: howToLeaveBehindSkulls"));
+            this.getLogger().severe("Invalid value (" + config.getString("skulls.howToLeaveBehindSkulls") +
+                    ") in config for key: howToLeaveBehindSkulls");
             this.getLogger().severe("Terminating plugin..");
             this.setEnabled(false);
         }
