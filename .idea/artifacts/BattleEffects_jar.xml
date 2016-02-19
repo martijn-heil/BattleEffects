@@ -3,7 +3,6 @@
     <output-path>$PROJECT_DIR$/out/artifacts/BattleEffects_jar</output-path>
     <root id="archive" name="BattleEffects.jar">
       <element id="module-output" name="BattleEffects" />
-      <element id="extracted-dir" path="$PROJECT_DIR$/../../API/spigot-api-1.8.8-R0.1-SNAPSHOT-latest-shaded.jar" path-in-jar="/" />
     </root>
   </artifact>
 </component>
