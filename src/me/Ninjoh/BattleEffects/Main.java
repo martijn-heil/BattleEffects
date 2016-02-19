@@ -22,14 +22,13 @@ public class Main extends JavaPlugin
 
         // Save config.
         saveDefaultConfig();
-        saveConfig();
 
 
         // Register events
         getServer().getPluginManager().registerEvents(new MainListener(), this);
 
         if(!config.getString("skulls.howToLeaveBehindSkulls").equals("block") &&
-                !config.getString("skulls.howToLeaveBehindSkulls").equals("item") &&
+                !config.getString("skulls.howToLeaveBehindSkulls").equals("dropItem") &&
                 !config.getString("skulls.howToLeaveBehindSkulls").equals("putInKillersInventory"))
         {
             this.getLogger().severe("Invalid value (" + config.getString("skulls.howToLeaveBehindSkulls"

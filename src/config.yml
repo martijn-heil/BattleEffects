@@ -13,11 +13,13 @@ blood:
 
 skulls:
   # Should a skull be left behind as a block on the location where a player dies?
-  enableLeavingBehindSkulls: true
+  enableLeavingBehindPlayerSkulls: true
 
   # How should skulls be left behind?
   # As a block or as a dropped item.
-  # valid values: 'block' OR 'item' OR 'putInKillersInventory'
+  # valid values: 'block' OR 'dropItem' OR 'putInKillersInventory'
+  # NOTE: If set to 'putInKillersInventory', there will be no skull left behind in any way,
+  # if there is no killer or if the killer is not a player!
   howToLeaveBehindSkulls: 'block'
 
   # If the 'howToLeaveBehindSkulls' option is set to 'putInKillersInventory'

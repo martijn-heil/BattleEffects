@@ -28,10 +28,10 @@ public class MainListener implements Listener
     @EventHandler
     public void onPlayerDeathEvent(PlayerDeathEvent e)
     {
-        if (config.getBoolean("skulls.enableLeavingBehindPlayerSkulls"))
+        if (config.getBoolean("skulls.enableLeavingBehindPlayerSkulls") && Chance(config.getInt("skulls.chanceToLeaveBehindSkull")))
         {
             // Get player
-            Player p = (Player) e.getEntity();
+            Player p = e.getEntity();
             String skullOwner = p.getName();
 
             if (config.getString("skulls.howToLeaveBehindSkulls").equals("block"))
@@ -169,7 +169,7 @@ public class MainListener implements Listener
 
 
             // Show blood particle effect if enabled in config.
-            if (config.getBoolean("enableBloodParticleEffect"))
+            if (config.getBoolean("blood.enableBloodParticleEffect"))
             {
                 // Show redstone block blood effect.
                 p.getWorld().playEffect(p.getLocation(), Effect.STEP_SOUND, Material.REDSTONE_BLOCK);
@@ -177,10 +177,10 @@ public class MainListener implements Listener
 
 
             // Leave behind blood if enabled in config.
-            if (config.getBoolean("enableLeavingBehindBlood"))
+            if (config.getBoolean("blood.enableLeavingBehindBlood"))
             {
                 // Chance to leave blood behind, percentage in int.
-                if (Chance(config.getInt("chanceToLeaveBehindBloodOnHit")))
+                if (Chance(config.getInt("blood.chanceToLeaveBehindBloodOnHit")))
                 {
                     // Prepare blockdata
                     Byte blockData = 0x0;
