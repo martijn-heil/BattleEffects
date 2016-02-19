@@ -6,6 +6,8 @@
 #*.iml
 out
 gen
+.idea/
+*.iml
 
 target/
 pom.xml.tag
